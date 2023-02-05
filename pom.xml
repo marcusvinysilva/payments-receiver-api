@@ -14,7 +14,7 @@
 	<name>payments-receiver-api</name>
 	<description>API para receber pagamentos de débitos de pessoas físicas e jurídicas.</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
