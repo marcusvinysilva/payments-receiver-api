@@ -9,8 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
@@ -61,20 +59,20 @@ public class Payment {
 		this.statusPagamento = statusPagamento;
 	}
 
-	@PrePersist
-	public void pendingStatus() {
-		this.setStatusPagamento(PaymentStatus.PENDING);
-	}
-	
-	@PrePersist
-	public void prePersist() {
-		createdAt = Instant.now();
-	}
-	
-	@PreUpdate
-	public void preUpdate() {
-		updatedAt = Instant.now();
-	}
+//	@PrePersist
+//	public void pendingStatus() {
+//		this.setStatusPagamento(PaymentStatus.PENDING);
+//	}
+//	
+//	@PrePersist
+//	public void prePersist() {
+//		createdAt = Instant.now();
+//	}
+//	
+//	@PreUpdate
+//	public void preUpdate() {
+//		updatedAt = Instant.now();
+//	}
 
 	public Long getCodigoDebito() {
 		return codigoDebito;
