@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fadesp.paymentsreceiverapi.entities.Payment;
+import com.fadesp.paymentsreceiverapi.dto.PaymentDTO;
 import com.fadesp.paymentsreceiverapi.services.PaymentService;
 
 @RestController
@@ -19,8 +19,8 @@ public class PaymentController {
 	private PaymentService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Payment>> findAll() {
-		List<Payment> list = service.findAll();
+	public ResponseEntity<List<PaymentDTO>> findAll() {
+		List<PaymentDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 }

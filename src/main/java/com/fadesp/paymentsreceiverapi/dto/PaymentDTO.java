@@ -1,49 +1,22 @@
-package com.fadesp.paymentsreceiverapi.entities;
+package com.fadesp.paymentsreceiverapi.dto;
 
-import java.time.Instant;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import com.fadesp.paymentsreceiverapi.entities.Payment;
 import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
 import com.fadesp.paymentsreceiverapi.enums.PaymentStatus;
 
-@Entity
-@Table(name = "tb_payment")
-public class Payment {
+public class PaymentDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigo_debito")
 	private Long codigoDebito;
-
-	@Column(name = "cpf_cnpj")
 	private String cpfCnpj;
-
-	@Column(name = "metodo_pagamento")
-	@Enumerated(EnumType.STRING)
 	private PaymentMethodEnum metodoPagamento;
-
-	@Column(name = "numero_cartao")
 	private String numeroCartao;
-
-	@Column(name = "valor_pagamento")
 	private Double valorPagamento;
-
-	@Column(name = "status_pagamento")
-	@Enumerated(EnumType.STRING)
 	private PaymentStatus statusPagamento;
 
-	public Payment() {
+	public PaymentDTO() {
 	}
 
-	public Payment(Long codigoDebito, String cpfCnpj, PaymentMethodEnum metodoPagamento, String numeroCartao,
+	public PaymentDTO(Long codigoDebito, String cpfCnpj, PaymentMethodEnum metodoPagamento, String numeroCartao,
 			Double valorPagamento, PaymentStatus statusPagamento) {
 		this.codigoDebito = codigoDebito;
 		this.cpfCnpj = cpfCnpj;
@@ -53,10 +26,14 @@ public class Payment {
 		this.statusPagamento = statusPagamento;
 	}
 
-//	@PrePersist
-//	public void pendingStatus() {
-//		this.setStatusPagamento(PaymentStatus.PENDING);
-//	}
+	public PaymentDTO(Payment entity) {
+		this.codigoDebito = entity.getCodigoDebito();
+		this.cpfCnpj = entity.getCpfCnpj();
+		this.metodoPagamento = entity.getMetodoPagamento();
+		this.numeroCartao = entity.getNumeroCartao();
+		this.valorPagamento = entity.getValorPagamento();
+		this.statusPagamento = entity.getStatusPagamento();
+	}
 
 	public Long getCodigoDebito() {
 		return codigoDebito;
