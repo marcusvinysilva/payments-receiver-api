@@ -2,14 +2,7 @@ package com.fadesp.paymentsreceiverapi.entities;
 
 import java.time.Instant;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
 import com.fadesp.paymentsreceiverapi.enums.PaymentStatus;
@@ -53,10 +46,10 @@ public class Payment {
 		this.statusPagamento = statusPagamento;
 	}
 
-//	@PrePersist
-//	public void pendingStatus() {
-//		this.setStatusPagamento(PaymentStatus.PENDING);
-//	}
+	@PrePersist
+	public void pendingStatus() {
+		this.setStatusPagamento(PaymentStatus.PENDENTE);
+	}
 
 	public Long getCodigoDebito() {
 		return codigoDebito;
