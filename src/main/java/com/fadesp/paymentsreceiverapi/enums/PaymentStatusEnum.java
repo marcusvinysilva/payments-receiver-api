@@ -1,6 +1,6 @@
 package com.fadesp.paymentsreceiverapi.enums;
 
-public enum PaymentStatus {
+public enum PaymentStatusEnum {
 
     SUCESSO,
     FALHA,

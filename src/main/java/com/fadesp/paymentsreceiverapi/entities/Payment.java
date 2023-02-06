@@ -1,11 +1,9 @@
 package com.fadesp.paymentsreceiverapi.entities;
 
-import java.time.Instant;
-
 import javax.persistence.*;
 
 import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
-import com.fadesp.paymentsreceiverapi.enums.PaymentStatus;
+import com.fadesp.paymentsreceiverapi.enums.PaymentStatusEnum;
 
 @Entity
 @Table(name = "tb_payment")
@@ -31,13 +29,13 @@ public class Payment {
 
 	@Column(name = "status_pagamento")
 	@Enumerated(EnumType.STRING)
-	private PaymentStatus statusPagamento;
+	private PaymentStatusEnum statusPagamento;
 
 	public Payment() {
 	}
 
 	public Payment(Long codigoDebito, String cpfCnpj, PaymentMethodEnum metodoPagamento, String numeroCartao,
-			Double valorPagamento, PaymentStatus statusPagamento) {
+			Double valorPagamento, PaymentStatusEnum statusPagamento) {
 		this.codigoDebito = codigoDebito;
 		this.cpfCnpj = cpfCnpj;
 		this.metodoPagamento = metodoPagamento;
@@ -48,7 +46,7 @@ public class Payment {
 
 	@PrePersist
 	public void pendingStatus() {
-		this.setStatusPagamento(PaymentStatus.PENDENTE);
+		this.setStatusPagamento(PaymentStatusEnum.PENDENTE);
 	}
 
 	public Long getCodigoDebito() {
@@ -91,11 +89,11 @@ public class Payment {
 		this.valorPagamento = valorPagamento;
 	}
 
-	public PaymentStatus getStatusPagamento() {
+	public PaymentStatusEnum getStatusPagamento() {
 		return statusPagamento;
 	}
 
-	public void setStatusPagamento(PaymentStatus statusPagamento) {
+	public void setStatusPagamento(PaymentStatusEnum statusPagamento) {
 		this.statusPagamento = statusPagamento;
 	}
 

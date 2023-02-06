@@ -1,17 +1,20 @@
 package com.fadesp.paymentsreceiverapi.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.fadesp.paymentsreceiverapi.dto.PaymentRequest;
+import com.fadesp.paymentsreceiverapi.dto.PaymentRequestUpdate;
 import com.fadesp.paymentsreceiverapi.dto.PaymentResponse;
+import com.fadesp.paymentsreceiverapi.entities.Payment;
 import com.fadesp.paymentsreceiverapi.entities.mapper.PaymentMapper;
+import com.fadesp.paymentsreceiverapi.enums.PaymentStatusEnum;
+import com.fadesp.paymentsreceiverapi.exceptions.BadRequestException;
+import com.fadesp.paymentsreceiverapi.exceptions.NotFoundException;
+import com.fadesp.paymentsreceiverapi.repositories.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fadesp.paymentsreceiverapi.dto.PaymentRequest;
-import com.fadesp.paymentsreceiverapi.entities.Payment;
-import com.fadesp.paymentsreceiverapi.repositories.PaymentRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
@@ -32,5 +35,24 @@ public class PaymentService {
     public PaymentResponse insert(PaymentRequest payment) {
         Payment newPayment = paymentMapper.requestToEntity(payment);
         return paymentMapper.responseToDto(repository.save(newPayment));
+    }
+
+    public PaymentResponse update(Long codigoDebito, PaymentRequestUpdate payment) {
+        Payment oldPayment = repository.findById(codigoDebito).orElseThrow(() -> new NotFoundException("Débito com o código " + codigoDebito + " não encontrado. Informe um código existente."));
+        if (oldPayment.getStatusPagamento() == PaymentStatusEnum.SUCESSO) {
+            throw new BadRequestException("Esse pagamento já foi processado com sucesso e seu status não pode ser alterado.");
+        } else if (oldPayment.getStatusPagamento() == PaymentStatusEnum.PENDENTE && payment.getStatusPagamento() == PaymentStatusEnum.PENDENTE) {
+            throw new BadRequestException(("Esse pagamento está pendente de processamento e só pode ser alterado para o status de processado com sucesso ou processado com falha."));
+        } else if (oldPayment.getStatusPagamento() == PaymentStatusEnum.FALHA && payment.getStatusPagamento() != PaymentStatusEnum.PENDENTE) {
+            throw new BadRequestException("Esse pagamento foi processado com falha e só pode ser alterado para o status de pendente de processamento.");
+        }
+
+        try {
+            oldPayment.setStatusPagamento(payment.getStatusPagamento());
+            return paymentMapper.responseToDto(repository.save(oldPayment));
+        } catch (Exception e) {
+            oldPayment.setStatusPagamento(PaymentStatusEnum.FALHA);
+            throw new BadRequestException("Esse pagamento foi processado com falha.");
+        }
     }
 }

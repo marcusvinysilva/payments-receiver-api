@@ -3,6 +3,7 @@ package com.fadesp.paymentsreceiverapi.controllers;
 import java.net.URI;
 import java.util.List;
 
+import com.fadesp.paymentsreceiverapi.dto.PaymentRequestUpdate;
 import com.fadesp.paymentsreceiverapi.dto.PaymentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,11 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> insert(@RequestBody @Valid PaymentRequest payment) {
         PaymentResponse newPayment = service.insert(payment);
         return ResponseEntity.ok().body(newPayment);
+    }
+
+    @PutMapping("/{codigoDebito}")
+    public ResponseEntity<PaymentResponse> update(@PathVariable Long codigoDebito, @RequestBody PaymentRequestUpdate payment) {
+        PaymentResponse paymentUpdated = service.update(codigoDebito, payment);
+        return ResponseEntity.ok().body(paymentUpdated);
     }
 }

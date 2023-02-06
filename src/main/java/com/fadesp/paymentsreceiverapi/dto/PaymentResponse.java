@@ -1,7 +1,7 @@
 package com.fadesp.paymentsreceiverapi.dto;
 
 import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
-import com.fadesp.paymentsreceiverapi.enums.PaymentStatus;
+import com.fadesp.paymentsreceiverapi.enums.PaymentStatusEnum;
 
 public class PaymentResponse {
     private Long codigoDebito;
@@ -9,7 +9,7 @@ public class PaymentResponse {
     private PaymentMethodEnum metodoPagamento;
     private String numeroCartao;
     private Double valorPagamento;
-    private PaymentStatus statusPagamento;
+    private PaymentStatusEnum statusPagamento;
 
     public Long getCodigoDebito() {
         return codigoDebito;
@@ -51,11 +51,11 @@ public class PaymentResponse {
         this.valorPagamento = valorPagamento;
     }
 
-    public PaymentStatus getStatusPagamento() {
+    public PaymentStatusEnum getStatusPagamento() {
         return statusPagamento;
     }
 
-    public void setStatusPagamento(PaymentStatus statusPagamento) {
+    public void setStatusPagamento(PaymentStatusEnum statusPagamento) {
         this.statusPagamento = statusPagamento;
     }
 }
