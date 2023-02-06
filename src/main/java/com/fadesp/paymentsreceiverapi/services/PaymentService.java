@@ -11,7 +11,6 @@ import com.fadesp.paymentsreceiverapi.exceptions.NotFoundException;
 import com.fadesp.paymentsreceiverapi.repositories.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,14 +23,12 @@ public class PaymentService {
 
     @Autowired
     private PaymentMapper paymentMapper;
-
-    @Transactional(readOnly = true)
+    
     public List<PaymentResponse> findAll() {
         List<Payment> list = repository.findAll();
         return list.stream().map(paymentMapper::responseToDto).collect(Collectors.toList());
     }
 
-    @Transactional
     public PaymentResponse insert(PaymentRequest payment) {
         Payment newPayment = paymentMapper.requestToEntity(payment);
         return paymentMapper.responseToDto(repository.save(newPayment));
