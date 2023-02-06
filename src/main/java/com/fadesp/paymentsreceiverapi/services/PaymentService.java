@@ -55,4 +55,12 @@ public class PaymentService {
             throw new BadRequestException("Esse pagamento foi processado com falha.");
         }
     }
+
+    public void remove(Long codigoDebito) {
+        Payment payment = repository.findById(codigoDebito).orElseThrow(() -> new NotFoundException("Débito com o código " + codigoDebito + " não encontrado. Informe um código existente."));
+        if (payment.getStatusPagamento() != PaymentStatusEnum.PENDENTE) {
+            throw new BadRequestException("Não é possível deletar pagamentos com status de processados com sucesso ou falha.");
+        }
+        repository.deleteById(codigoDebito);
+    }
 }

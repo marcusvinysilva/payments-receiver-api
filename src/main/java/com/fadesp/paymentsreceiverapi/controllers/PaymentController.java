@@ -40,4 +40,10 @@ public class PaymentController {
         PaymentResponse paymentUpdated = service.update(codigoDebito, payment);
         return ResponseEntity.ok().body(paymentUpdated);
     }
+
+    @DeleteMapping("/{codigoDebito}")
+    public ResponseEntity<Void> remove(@PathVariable Long codigoDebito) {
+        service.remove(codigoDebito);
+        return ResponseEntity.noContent().build();
+    }
 }
