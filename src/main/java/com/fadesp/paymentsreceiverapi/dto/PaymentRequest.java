@@ -3,37 +3,22 @@ package com.fadesp.paymentsreceiverapi.dto;
 import com.fadesp.paymentsreceiverapi.entities.Payment;
 import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
 import com.fadesp.paymentsreceiverapi.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class PaymentDTO {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+public class PaymentRequest {
+
+	@JsonIgnore
 	private Long codigoDebito;
+	@NotEmpty
 	private String cpfCnpj;
+	@NotNull
 	private PaymentMethodEnum metodoPagamento;
 	private String numeroCartao;
+	@NotNull
 	private Double valorPagamento;
-	private PaymentStatus statusPagamento;
-
-	public PaymentDTO() {
-	}
-
-	public PaymentDTO(Long codigoDebito, String cpfCnpj, PaymentMethodEnum metodoPagamento, String numeroCartao,
-			Double valorPagamento, PaymentStatus statusPagamento) {
-		this.codigoDebito = codigoDebito;
-		this.cpfCnpj = cpfCnpj;
-		this.metodoPagamento = metodoPagamento;
-		this.numeroCartao = numeroCartao;
-		this.valorPagamento = valorPagamento;
-		this.statusPagamento = statusPagamento;
-	}
-
-	public PaymentDTO(Payment entity) {
-		this.codigoDebito = entity.getCodigoDebito();
-		this.cpfCnpj = entity.getCpfCnpj();
-		this.metodoPagamento = entity.getMetodoPagamento();
-		this.numeroCartao = entity.getNumeroCartao();
-		this.valorPagamento = entity.getValorPagamento();
-		this.statusPagamento = entity.getStatusPagamento();
-	}
 
 	public Long getCodigoDebito() {
 		return codigoDebito;
@@ -74,13 +59,4 @@ public class PaymentDTO {
 	public void setValorPagamento(Double valorPagamento) {
 		this.valorPagamento = valorPagamento;
 	}
-
-	public PaymentStatus getStatusPagamento() {
-		return statusPagamento;
-	}
-
-	public void setStatusPagamento(PaymentStatus statusPagamento) {
-		this.statusPagamento = statusPagamento;
-	}
-
 }
