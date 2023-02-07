@@ -4,6 +4,8 @@ import com.fadesp.paymentsreceiverapi.enums.PaymentMethodEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 public class PaymentRequest {
 
@@ -11,10 +13,10 @@ public class PaymentRequest {
     private Long codigoDebito;
     @NotBlank(message = "CPF/CNPJ é obrigatório")
     private String cpfCnpj;
-    @NotBlank(message = "O método de pagamento é obrigatório")
+    @NotNull(message = "O método de pagamento é obrigatório")
     private PaymentMethodEnum metodoPagamento;
     private String numeroCartao;
-    @NotBlank(message = "O valor do pagamento é obrigatório")
+    @Positive(message = "O valor de pagamento deve ser maior que zero")
     private Double valorPagamento;
 
     public Long getCodigoDebito() {
