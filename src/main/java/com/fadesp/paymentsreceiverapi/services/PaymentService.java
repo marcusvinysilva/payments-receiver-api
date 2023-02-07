@@ -23,9 +23,12 @@ public class PaymentService {
 
     @Autowired
     private PaymentMapper paymentMapper;
-    
+
     public List<PaymentResponse> findAll() {
         List<Payment> list = repository.findAll();
+        if (list.size() == 0) {
+            throw new NotFoundException("Não existem pagamentos registados.");
+        }
         return list.stream().map(paymentMapper::responseToDto).collect(Collectors.toList());
     }
 
@@ -59,5 +62,20 @@ public class PaymentService {
             throw new BadRequestException("Não é possível deletar pagamentos com status de processados com sucesso ou falha.");
         }
         repository.deleteById(codigoDebito);
+    }
+
+    public List<PaymentResponse> findByStatus(PaymentStatusEnum status) {
+        List<Payment> list = repository.findByStatusPagamento(status);
+        return list.stream().map(paymentMapper::responseToDto).collect(Collectors.toList());
+    }
+
+    public List<PaymentResponse> findByCpfCnpj(String cpfCnpj) {
+        List<Payment> list = repository.findByCpfCnpj(cpfCnpj);
+        return list.stream().map(paymentMapper::responseToDto).collect(Collectors.toList());
+    }
+
+    public PaymentResponse findByCodigoDebito(Long codigoDebito) {
+        Payment payment = repository.findById(codigoDebito).orElseThrow(() -> new NotFoundException("Débito com o código " + codigoDebito + " não encontrado. Informe um código existente."));
+        return paymentMapper.responseToDto(payment);
     }
 }
